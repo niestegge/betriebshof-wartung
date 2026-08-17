@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wartungsprotokoll - Niestegge Betriebshof</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ngg-primary: #195a44;
+            --ngg-primary-dark: #0f3a2c;
+            --ngg-accent: #8dc63f;
+            --ngg-tint: #eef6e2;
+            --ngg-cream: #fafaf7;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --text-light: #999;
+            --border-color: #ddd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Avenir Next', 'Avenir', 'Montserrat', system-ui, sans-serif;
+            background: var(--ngg-cream);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        main {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .logo {
+            height: 54px;
+            width: auto;
+            margin: 32px 0 24px 0;
+            display: block;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--ngg-primary);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        .ngg-card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .ngg-card.tint {
+            background: var(--ngg-tint);
+            border-color: #d9ead3;
+        }
+
+        .section-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ngg-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        /* Maschinenraster */
+        /* Details/Summary Styling */
+        .category-details {
+            margin-bottom: 16px;
+        }
+
+        .category-summary {
+            cursor: pointer;
+            padding: 14px;
+            background: var(--ngg-tint);
+            border-left: 4px solid var(--ngg-primary);
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--ngg-primary);
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+
+        .category-summary:hover {
+            background: #e1f0e7;
+        }
+
+        .category-summary::marker {
+            color: var(--ngg-primary);
+        }
+
+        .category-details[open] .category-summary {
+            background: var(--ngg-primary);
+            color: white;
+            border-left-color: var(--ngg-accent);
+        }
+
+        .category-details[open] .category-summary::marker {
+            color: white;
+        }
+
+        .machine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            padding: 16px 0 0 0;
+        }
+
+        .machine-btn {
+            padding: 12px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s;
+            text-align: center;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        .machine-btn:hover {
+            border-color: var(--ngg-accent);
+            background: var(--ngg-tint);
+        }
+
+        .machine-btn.active {
+            background: var(--ngg-primary);
+            color: white;
+            border-color: var(--ngg-primary);
+        }
+
+        /* Formular Summary */
+        .form-summary {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 0;
+            user-select: none;
+            font-weight: 700;
+            color: var(--ngg-primary);
+        }
+
+        .form-summary::marker {
+            color: var(--ngg-primary);
+        }
+
+        .form-details[open] .form-summary::marker {
+            color: var(--ngg-primary);
+        }
+
+        .form-details {
+            margin-bottom: 0;
+        }
+
+        /* Formularelemente */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--ngg-primary);
+        }
+
+        .checkbox-wrapper label {
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+            background: white;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--ngg-primary);
+            box-shadow: 0 0 0 3px rgba(25, 90, 68, 0.08);
+        }
+
+        /* Button-Styles */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: var(--ngg-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--ngg-primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(25, 90, 68, 0.2);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: var(--text-primary);
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #eee;
+            border-color: #999;
+        }
+
+        /* History/Verlauf */
+        .history-item {
+            padding: 16px;
+            background: #fafafa;
+            border-left: 4px solid var(--ngg-accent);
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+
+        .history-item.last {
+            background: var(--ngg-tint);
+            border-left-color: var(--ngg-primary);
+        }
+
+        .history-date {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ngg-primary);
+            margin-bottom: 8px;
+        }
+
+        .history-details {
+            font-size: 13px;
+            color: var(--text-primary);
+            margin: 4px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-ok {
+            color: var(--ngg-primary);
+            margin-right: 6px;
+        }
+
+        .status-issue {
+            color: #f57c00;
+            margin-right: 6px;
+        }
+
+        /* Tasks/Aufgaben */
+        .tasks-section {
+            margin-bottom: 24px;
+        }
+
+        /* Task Details */
+        .task-category {
+            margin-bottom: 16px;
+        }
+
+        .task-category summary {
+            cursor: pointer;
+            padding: 14px;
+            background: var(--ngg-tint);
+            border-left: 4px solid var(--ngg-primary);
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--ngg-primary);
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .task-category summary:hover {
+            background: #e1f0e7;
+        }
+
+        .task-category[open] summary {
+            background: var(--ngg-primary);
+            color: white;
+            border-left-color: var(--ngg-accent);
+        }
+
+        .task-content {
+            padding: 12px 0 0 0;
+        }
+
+        .task-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .task-item.completed {
+            background: #eef6e2;
+            border-color: #8dc63f;
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .task-item.completed .task-text {
+            color: var(--text-secondary);
+            text-decoration: line-through;
+        }
+
+        .task-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .task-btn-complete {
+            background: var(--ngg-primary);
+            color: white;
+        }
+
+        .task-btn-complete:hover {
+            background: var(--ngg-primary-dark);
+        }
+
+        .task-btn-undo {
+            background: #f0f0f0;
+            color: var(--text-primary);
+            border: 1px solid #ddd;
+        }
+
+        .task-btn-undo:hover {
+            background: #e8e8e8;
+        }
+
+        .empty-tasks {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Admin Panel */
+        .admin-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .admin-overlay.active {
+            display: flex;
+        }
+
+        .admin-modal {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .admin-modal h2 {
+            color: var(--ngg-primary);
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .admin-form input,
+        .admin-form textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .admin-form input:focus,
+        .admin-form textarea:focus {
+            outline: none;
+            border-color: var(--ngg-primary);
+            box-shadow: 0 0 0 3px rgba(25, 90, 68, 0.08);
+        }
+
+        .admin-btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .admin-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+
+        .admin-btn-save {
+            background: var(--ngg-primary);
+            color: white;
+        }
+
+        .admin-btn-save:hover {
+            background: var(--ngg-primary-dark);
+        }
+
+        .admin-btn-close {
+            background: #f0f0f0;
+            color: var(--text-primary);
+            border: 1px solid #ddd;
+        }
+
+        .admin-btn-close:hover {
+            background: #e8e8e8;
+        }
+
+        .admin-password-form {
+            text-align: center;
+        }
+
+        .admin-password-form input {
+            text-align: center;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        .admin-task-list {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .admin-task-list h3 {
+            color: var(--ngg-primary);
+            font-size: 14px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-task-item {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-task-item span {
+            flex: 1;
+            font-size: 13px;
+        }
+
+        .admin-task-delete {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* PDF Notes Modal */
+        .pdf-notes-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pdf-notes-overlay.active {
+            display: flex;
+        }
+
+        .pdf-notes-modal {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .pdf-notes-modal h2 {
+            color: var(--ngg-primary);
+            margin-bottom: 16px;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .pdf-notes-modal textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .pdf-notes-modal textarea:focus {
+            outline: none;
+            border-color: var(--ngg-primary);
+            box-shadow: 0 0 0 3px rgba(25, 90, 68, 0.08);
+        }
+
+        .pdf-notes-btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .pdf-notes-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+
+        .pdf-notes-btn-export {
+            background: var(--ngg-primary);
+            color: white;
+        }
+
+        .pdf-notes-btn-export:hover {
+            background: var(--ngg-primary-dark);
+        }
+
+        .pdf-notes-btn-cancel {
+            background: #f0f0f0;
+            color: var(--text-primary);
+            border: 1px solid #ddd;
+        }
+
+        .pdf-notes-btn-cancel:hover {
+            background: #e8e8e8;
+        }
+
+        /* Alert/Benachrichtigungen */
+        .alert {
+            padding: 16px;
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #92400e;
+        }
+
+        .alert.success {
+            background: var(--ngg-tint);
+            border-left-color: var(--ngg-primary);
+            color: var(--ngg-primary);
+        }
+
+        .no-machine {
+            text-align: center;
+            color: var(--text-light);
+            padding: 32px;
+            font-size: 14px;
+        }
+
+        .ngg-claim {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                padding: 0 12px;
+            }
+
+            .logo {
+                height: 48px;
+                margin: 24px 0 16px 0;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 4px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+
+            .ngg-card {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+
+            .pdf-notes-modal {
+                width: 95%;
+                padding: 16px;
+                max-height: 90vh;
+            }
+
+            .pdf-notes-modal h2 {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+
+            .pdf-notes-modal textarea {
+                min-height: 100px;
+                font-size: 16px;
+            }
+
+            .pdf-notes-btn {
+                padding: 12px;
+                font-size: 13px;
+                min-height: 44px;
+            }
+
+            .admin-modal h2 {
+                font-size: 20px;
+                margin-bottom: 16px;
+            }
+
+            .admin-task-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .admin-task-delete {
+                align-self: flex-end;
+            }
+
+            .task-category summary {
+                padding: 12px;
+                font-size: 13px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+
+            .task-item {
+                padding: 12px;
+                gap: 10px;
+            }
+
+            .task-btn {
+                padding: 10px 14px;
+                font-size: 11px;
+                min-height: 40px;
+            }
+
+            .machine-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .machine-btn {
+                padding: 14px 8px;
+                font-size: 12px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .category-summary {
+                padding: 12px;
+                font-size: 13px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+
+            button {
+                padding: 14px;
+                font-size: 13px;
+                min-height: 44px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+            }
+
+            textarea {
+                min-height: 100px;
+                font-size: 16px;
+            }
+
+            .checkbox-wrapper {
+                gap: 10px;
+            }
+
+            .history-item {
+                padding: 12px;
+            }
+
+            .section-label {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- Logo -->
+        <svg class="logo" viewBox="0 0 365 104" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="104" height="104" fill="#195a44" rx="4"/>
+            <circle cx="52" cy="52" r="30" fill="#8dc63f"/>
+            <text x="52" y="62" font-size="48" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">NGG</text>
+            <text x="125" y="35" font-size="20" font-weight="bold" fill="#195a44" font-family="Arial">Niestegge</text>
+            <text x="125" y="55" font-size="20" font-weight="bold" fill="#195a44" font-family="Arial">Gartengestaltung</text>
+        </svg>
+
+        <h1>Betriebshof Wartungsprotokoll</h1>
+        <p class="subtitle">Dokumentation für Maschinen und Fahrzeuge</p>
+
+        <div id="alert" style="display: none;"></div>
+
+        <!-- Aufgabenverwaltung -->
+        <div class="ngg-card tasks-section">
+            <span class="section-label">Aufgaben</span>
+            
+            <!-- Aktuell (immer offen) -->
+            <details class="task-category" open>
+                <summary>Aktuell</summary>
+                <div class="task-content" id="activeTasks"></div>
+            </details>
+
+            <!-- Erledigt (zugeklappt) -->
+            <details class="task-category">
+                <summary>Erledigt</summary>
+                <div class="task-content" id="completedTasks"></div>
+            </details>
+        </div>
+
+        <!-- Maschinenauswahl -->
+        <div class="ngg-card">
+            <span class="section-label">Maschine wählen</span>
+            <div id="machineContainer"></div>
+        </div>
+
+        <!-- Formular -->
+        <div id="formSection" class="ngg-card" style="display: none;">
+            <details class="form-details">
+                <summary class="form-summary">
+                    <span id="selectedMachineDisplay">Heute durchgeführte Arbeiten</span>
+                </summary>
+                
+                <div style="padding-top: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">Öl geprüft</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="oilChecked" value="true">
+                                <label for="oilChecked">Ja, geprüft</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Fahrzeug/Maschine abgeschmiert</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="lubricated" value="true">
+                                <label for="lubricated">Ja, abgeschmiert</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="fueledGroup" style="display: none;">
+                        <label class="form-label">Getankt</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="fueled" value="true">
+                                <label for="fueled">Ja, getankt</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Besonderheiten / Probleme</label>
+                        <textarea id="notes" placeholder="z.B. Ölstand zu niedrig, Verschleiß beobachtet, Wartung fällig..."></textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn-primary" onclick="saveProtocol()">Speichern</button>
+                        <button class="btn-secondary" onclick="resetForm()">Zurücksetzen</button>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <!-- Verlauf -->
+        <div id="historySection" class="ngg-card" style="display: none;">
+            <span class="section-label">Letzte Arbeiten an dieser Maschine</span>
+            <div id="historyList"></div>
+        </div>
+
+        <div id="noMachineSection" class="ngg-card">
+            <div class="empty-state">Wähle eine Maschine aus, um zu starten</div>
+        </div>
+
+        <!-- Export -->
+        <div class="ngg-card tint">
+            <span class="section-label">Daten exportieren</span>
+            <div class="btn-group">
+                <button class="btn-primary" onclick="exportPDF()">PDF erzeugen</button>
+                <button class="btn-secondary" onclick="downloadJSON()">Backup herunterladen</button>
+            </div>
+        </div>
+
+        <p class="ngg-claim">Niestegge Gartengestaltung – Wir gestalten, ihr genießt.</p>
+    </main>
+
+    <!-- PDF Notes Modal -->
+    <div class="pdf-notes-overlay" id="pdfNotesOverlay">
+        <div class="pdf-notes-modal">
+            <h2>PDF-Notizen</h2>
+            <p style="color: #666; margin-bottom: 16px; font-size: 14px;">Optionale allgemeine Notizen für die PDF:</p>
+            <textarea id="pdfNotesText" placeholder="z.B. Allgemeine Bemerkungen, Wartungen fällig, etc..."></textarea>
+            <div class="pdf-notes-btn-group">
+                <button class="pdf-notes-btn pdf-notes-btn-export" onclick="generatePDFWithNotes()">PDF erzeugen</button>
+                <button class="pdf-notes-btn pdf-notes-btn-cancel" onclick="closePdfNotesModal()">Abbrechen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div class="admin-overlay" id="adminOverlay">
+        <div class="admin-modal">
+            <h2 id="adminTitle">Admin Panel</h2>
+            
+            <!-- Passwort-Eingabe -->
+            <div id="adminPasswordForm" class="admin-password-form">
+                <p style="margin-bottom: 16px; color: #666; font-size: 14px;">Passwort eingeben:</p>
+                <input type="password" id="adminPassword" placeholder="Passwort" style="margin-bottom: 12px;">
+                <div class="admin-btn-group">
+                    <button class="admin-btn admin-btn-save" onclick="checkAdminPassword()">Anmelden</button>
+                    <button class="admin-btn admin-btn-close" onclick="closeAdminPanel()">Abbrechen</button>
+                </div>
+            </div>
+
+            <!-- Admin Interface -->
+            <div id="adminInterface" style="display: none;">
+                <div class="admin-form">
+                    <div>
+                        <label style="display: block; font-weight: 700; margin-bottom: 8px; color: var(--ngg-primary);">Neue Aufgabe:</label>
+                        <textarea id="adminTaskText" placeholder="Aufgabentext eingeben..." style="min-height: 80px;"></textarea>
+                    </div>
+
+                    <div class="admin-btn-group">
+                        <button class="admin-btn admin-btn-save" onclick="adminAddTask()">Hinzufügen</button>
+                        <button class="admin-btn admin-btn-close" onclick="closeAdminPanel()">Fertig</button>
+                    </div>
+                </div>
+
+                <div class="admin-task-list">
+                    <h3>Aktuelle Aufgaben:</h3>
+                    <div id="adminTasksList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        /* ============================================================
+           AUFGABEN FÜR ALLE
+
+           Diese Aufgaben bringt die Seite selbst mit. Jeder, der den
+           QR-Code scannt, sieht sie sofort – auch auf einem Handy, das
+           die Seite zum ersten Mal öffnet.
+
+           ÄNDERN: Zeile bearbeiten, löschen oder eine neue ergänzen.
+           Jede Aufgabe steht in Anführungszeichen, danach ein Komma.
+           Bei der letzten Zeile das Komma weglassen.
+           Danach Datei als index.html hochladen – fertig.
+
+           Abgehakte Aufgaben bleiben abgehakt, auch wenn du später
+           neue ergänzt.
+           ============================================================ */
+        const VORGEGEBENE_AUFGABEN = [
+            'Kübel, Bäume & Pflanzenbecken bewässern',
+            'Holzlager frei machen',
+            'Müll auf dem Betriebshof aufsammeln',
+            'Paletten sortenrein aufeinander stapeln'
+        ];
+
+        const MACHINES = {
+            'Maschinen': ['Cabriobagger', '2,7 to Bagger', '6,5 to Bagger', 'Atlas Radlader', 'Scheffler Radlader', 'CAT Radlader', 'Dumper', 'Hunklinger'],
+            'Geräte': ['Motorstampfer Weber', 'Rüttler Weber', 'Rüttler Wacker', 'Wildkrautbürste'],
+            'Mäher': ['AS-Allmäher', 'AS-Rasenmäher', 'OVIS Mähraupe', 'SABO Rasenmäher', 'Torro Rasenmäher'],
+            'Fahrzeuge': ['Sprinter', 'Bulli', 'Pritsche']
+        };
+
+        let selectedMachine = null;
+        let allProtocols = [];
+        let selectedMachineBtn = null;
+        let allTasks = [];
+
+        // Initialisierung
+        function init() {
+            loadProtocols();
+            loadTasks();
+            renderMachines();
+            renderTasks();
+            
+            // Admin-Passwort: NGG
+            const ADMIN_PASSWORD = 'NGG';
+            
+            // Tastenkombination zum Admin-Panel: Strg+Shift+A
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                    e.preventDefault();
+                    openAdminPanel();
+                }
+            });
+
+            // Auto-Select Maschine aus URL-Parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const machineParam = urlParams.get('machine');
+            
+            if (machineParam) {
+                // Finde den Button für diese Maschine
+                setTimeout(() => {
+                    const allButtons = document.querySelectorAll('.machine-btn');
+                    for (let btn of allButtons) {
+                        if (btn.textContent.trim() === machineParam) {
+                            btn.click();
+                            break;
+                        }
+                    }
+                }, 100);
+            }
+        }
+
+        // ADMIN PANEL
+        function openAdminPanel() {
+            document.getElementById('adminOverlay').classList.add('active');
+            document.getElementById('adminPasswordForm').style.display = 'block';
+            document.getElementById('adminInterface').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('adminPassword').focus();
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminOverlay').classList.remove('active');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function checkAdminPassword() {
+            const ADMIN_PASSWORD = 'NGG';
+            const password = document.getElementById('adminPassword').value;
+
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('adminPasswordForm').style.display = 'none';
+                document.getElementById('adminInterface').style.display = 'block';
+                document.getElementById('adminTaskText').focus();
+                renderAdminTaskList();
+                showAlert('✓ Admin-Modus aktiviert!', 'success');
+            } else {
+                showAlert('✗ Falsches Passwort!', 'error');
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        function adminAddTask() {
+            const text = document.getElementById('adminTaskText').value.trim();
+
+            if (!text) {
+                showAlert('Bitte Aufgabentext eingeben', 'error');
+                return;
+            }
+
+            const task = {
+                id: Date.now(),
+                text: text,
+                completed: false,
+                createdAt: new Date().getTime()
+            };
+
+            allTasks.unshift(task);
+            saveTasks();
+            renderTasks();
+            renderAdminTaskList();
+            document.getElementById('adminTaskText').value = '';
+            document.getElementById('adminTaskText').focus();
+            showAlert('✓ Aufgabe hinzugefügt!', 'success');
+        }
+
+        function adminDeleteTask(id) {
+            const task = allTasks.find(t => t.id === id);
+            if (task && task.vorgabe) {
+                alert('Diese Aufgabe ist in der Datei fest hinterlegt.\n\n'
+                    + 'Sie würde beim nächsten Laden der Seite wieder auftauchen. '
+                    + 'Zum dauerhaften Entfernen die Zeile oben in der Liste '
+                    + 'VORGEGEBENE_AUFGABEN aus der Datei löschen und die Datei '
+                    + 'neu hochladen.');
+                return;
+            }
+            if (confirm('Aufgabe wirklich löschen?')) {
+                allTasks = allTasks.filter(t => t.id !== id);
+                saveTasks();
+                renderTasks();
+                renderAdminTaskList();
+                showAlert('✓ Aufgabe gelöscht', 'success');
+            }
+        }
+
+        function renderAdminTaskList() {
+            const container = document.getElementById('adminTasksList');
+            
+            if (allTasks.length === 0) {
+                container.innerHTML = '<div style="color: #999; font-size: 13px;">Keine Aufgaben vorhanden</div>';
+                return;
+            }
+
+            container.innerHTML = allTasks.map(task => `
+                <div class="admin-task-item">
+                    <span>${escapeHtml(task.text)}${task.vorgabe ? ' <em style="color:#8a8a8a;font-style:normal;font-size:11px;">(fest in der Datei)</em>' : ''}</span>
+                    <button class="admin-task-delete" onclick="adminDeleteTask(${task.id})">Löschen</button>
+                </div>
+            `).join('');
+        }
+
+        // TASKS
+        // Stabile ID aus dem Aufgabentext – damit "erledigt" ein Update überlebt
+        function vorgabeId(text, index) {
+            let h = 0;
+            for (let i = 0; i < text.length; i++) {
+                h = (h * 31 + text.charCodeAt(i)) | 0;
+            }
+            h = Math.abs(h);
+            return h === 0 ? index + 1 : h;
+        }
+
+        function loadTasks() {
+            const stored = localStorage.getItem('tasks');
+            const gespeichert = stored ? JSON.parse(stored) : [];
+
+            // IDs der Vorgabe-Aufgaben, Doppelungen sauber trennen
+            const ids = [];
+            VORGEGEBENE_AUFGABEN.forEach((text, i) => {
+                let id = vorgabeId(text, i);
+                while (ids.indexOf(id) !== -1) { id = id + 1; }
+                ids.push(id);
+            });
+
+            // Vorgabe-Aufgaben neu aufbauen, Haken aus dem Speicher übernehmen
+            const vorgabe = VORGEGEBENE_AUFGABEN.map((text, i) => {
+                const alt = gespeichert.find(t => t.id === ids[i]);
+                return {
+                    id: ids[i],
+                    text: text,
+                    completed: alt ? !!alt.completed : false,
+                    vorgabe: true,
+                    createdAt: alt && alt.createdAt ? alt.createdAt : Date.now()
+                };
+            });
+
+            // Selbst angelegte Aufgaben behalten; gestrichene Vorgaben fallen weg.
+            // Doppelte aussortieren: was von Hand eingetippt wurde und nun als
+            // Vorgabe in der Datei steht, soll nur einmal erscheinen.
+            const vorgabeTexte = VORGEGEBENE_AUFGABEN.map(t => t.trim().toLowerCase());
+            const eigene = gespeichert.filter(t =>
+                !t.vorgabe
+                && ids.indexOf(t.id) === -1
+                && vorgabeTexte.indexOf((t.text || '').trim().toLowerCase()) === -1
+            );
+
+            allTasks = vorgabe.concat(eigene);
+            saveTasks();
+        }
+
+        function saveTasks() {
+            localStorage.setItem('tasks', JSON.stringify(allTasks));
+        }
+
+
+
+        function completeTask(id) {
+            const task = allTasks.find(t => t.id === id);
+            if (task) {
+                task.completed = true;
+                saveTasks();
+                renderTasks();
+                showAlert('✓ Aufgabe abgehakt!', 'success');
+            }
+        }
+
+        function undoTask(id) {
+            const task = allTasks.find(t => t.id === id);
+            if (task) {
+                task.completed = false;
+                saveTasks();
+                renderTasks();
+                showAlert('✓ Aufgabe zurückgestellt', 'success');
+            }
+        }
+
+        function renderTasks() {
+            const activeTasks = allTasks.filter(t => !t.completed);
+            const completedTasks = allTasks.filter(t => t.completed);
+
+            // Active tasks
+            const activeContainer = document.getElementById('activeTasks');
+            if (activeTasks.length === 0) {
+                activeContainer.innerHTML = '<div class="empty-tasks">✓ Alle Aufgaben erledigt!</div>';
+            } else {
+                activeContainer.innerHTML = activeTasks.map(task => `
+                    <div class="task-item">
+                        <div class="task-text">${escapeHtml(task.text)}</div>
+                        <button class="task-btn task-btn-complete" onclick="completeTask(${task.id})">Erledigt</button>
+                    </div>
+                `).join('');
+            }
+
+            // Completed tasks
+            const completedContainer = document.getElementById('completedTasks');
+            if (completedTasks.length === 0) {
+                completedContainer.innerHTML = '<div class="empty-tasks">Noch keine erledigten Aufgaben</div>';
+            } else {
+                completedContainer.innerHTML = completedTasks.map(task => `
+                    <div class="task-item completed">
+                        <div class="task-text">${escapeHtml(task.text)}</div>
+                        <button class="task-btn task-btn-undo" onclick="undoTask(${task.id})">Zurück</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderMachines() {
+            const container = document.getElementById('machineContainer');
+            container.innerHTML = '';
+
+            for (const category in MACHINES) {
+                const details = document.createElement('details');
+                details.className = 'category-details';
+
+                const summary = document.createElement('summary');
+                summary.className = 'category-summary';
+                summary.textContent = category;
+
+                // Nur eine Details gleichzeitig offen
+                details.addEventListener('toggle', () => {
+                    if (details.open) {
+                        document.querySelectorAll('.category-details').forEach(d => {
+                            if (d !== details && d.open) {
+                                d.open = false;
+                            }
+                        });
+                    }
+                });
+
+                const grid = document.createElement('div');
+                grid.className = 'machine-grid';
+
+                MACHINES[category].forEach(machine => {
+                    const btn = document.createElement('button');
+                    btn.className = 'machine-btn';
+                    btn.textContent = machine;
+                    btn.onclick = () => selectMachine(machine, btn);
+                    grid.appendChild(btn);
+                });
+
+                details.appendChild(summary);
+                details.appendChild(grid);
+                container.appendChild(details);
+            }
+        }
+
+        function selectMachine(machine, btn) {
+            selectedMachine = machine;
+            selectedMachineBtn = btn;
+            
+            // Update buttons
+            document.querySelectorAll('.machine-btn').forEach(b => {
+                b.classList.toggle('active', b === btn);
+            });
+
+            // Update form header
+            document.getElementById('selectedMachineDisplay').textContent = machine + ' - Wartungsprotokoll';
+
+            // Show/hide getankt field (only for non-vehicle categories)
+            const isFahrzeug = ['Sprinter', 'Bulli', 'Pritsche'].includes(machine);
+            document.getElementById('fueledGroup').style.display = isFahrzeug ? 'none' : 'block';
+
+            // Show form
+            document.getElementById('noMachineSection').style.display = 'none';
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('historySection').style.display = 'block';
+
+            // Formular-Details öffnen
+            const formDetails = document.querySelector('.form-details');
+            if (formDetails) {
+                formDetails.open = true;
+            }
+
+            // Load history
+            loadHistory();
+            resetForm();
+
+            // Auto-scroll zum Formular auf Handy
+            setTimeout(() => {
+                document.getElementById('formSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function saveProtocol() {
+            if (!selectedMachine) {
+                showAlert('Bitte wähle eine Maschine aus', 'error');
+                return;
+            }
+
+            const now = new Date();
+            const protocol = {
+                id: Date.now(),
+                machine: selectedMachine,
+                date: now.toLocaleDateString('de-DE'),
+                time: now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }),
+                oilChecked: document.getElementById('oilChecked').checked,
+                lubricated: document.getElementById('lubricated').checked,
+                fueled: document.getElementById('fueled').checked,
+                notes: document.getElementById('notes').value,
+                timestamp: now.getTime()
+            };
+
+            allProtocols.push(protocol);
+            localStorage.setItem('protocols', JSON.stringify(allProtocols));
+
+            showAlert('✓ Protokoll gespeichert!', 'success');
+            resetForm();
+
+            // Formular zuklappen nach Speichern
+            const formDetails = document.querySelector('.form-details');
+            if (formDetails) {
+                formDetails.open = false;
+            }
+
+            // Maschine deselektieren
+            selectedMachine = null;
+            selectedMachineBtn = null;
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.machine-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+
+            // Hide form and history, show machine selection
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('historySection').style.display = 'none';
+            document.getElementById('noMachineSection').style.display = 'block';
+
+            // Scroll to top for next machine selection
+            setTimeout(() => {
+                document.getElementById('machineContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function resetForm() {
+            document.getElementById('oilChecked').checked = false;
+            document.getElementById('lubricated').checked = false;
+            document.getElementById('fueled').checked = false;
+            document.getElementById('notes').value = '';
+        }
+
+        function loadHistory() {
+            const history = allProtocols
+                .filter(p => p.machine === selectedMachine)
+                .sort((a, b) => b.timestamp - a.timestamp);
+
+            const list = document.getElementById('historyList');
+
+            if (history.length === 0) {
+                list.innerHTML = '<div class="empty-state">Noch keine Einträge für diese Maschine</div>';
+                return;
+            }
+
+            list.innerHTML = history.map((entry, index) => {
+                // Nur durchgeführte Arbeiten anzeigen
+                let workItems = '';
+                
+                if (entry.oilChecked) {
+                    workItems += '<div class="history-details"><span class="status-ok">✓</span> Öl geprüft</div>';
+                }
+                
+                if (entry.lubricated) {
+                    workItems += '<div class="history-details"><span class="status-ok">✓</span> Abgeschmiert</div>';
+                }
+
+                if (entry.fueled) {
+                    workItems += '<div class="history-details"><span class="status-ok">✓</span> Getankt</div>';
+                }
+                
+                // Falls keine Arbeiten gemacht wurden, aber Notizen vorhanden
+                if (!entry.oilChecked && !entry.lubricated && !entry.fueled && !entry.notes) {
+                    workItems = '<div class="history-details" style="color: #999;">Keine Arbeiten dokumentiert</div>';
+                }
+
+                return `
+                    <div class="history-item ${index === 0 ? 'last' : ''}">
+                        <div class="history-date">${entry.date} um ${entry.time}</div>
+                        ${workItems}
+                        ${entry.notes ? `<div class="history-details" style="margin-top: 8px; font-weight: 700; color: #195a44;">Notiz:</div><div class="history-details">${escapeHtml(entry.notes)}</div>` : ''}
+                        ${index !== history.length - 1 ? `<div style="margin-top: 8px; font-size: 12px; color: #ddd;">────────────</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadProtocols() {
+            const stored = localStorage.getItem('protocols');
+            allProtocols = stored ? JSON.parse(stored) : [];
+        }
+
+        function exportPDF() {
+            if (allProtocols.length === 0) {
+                showAlert('Keine Protokolle zum Exportieren vorhanden', 'error');
+                return;
+            }
+
+            // Öffne Modal für Notizen
+            document.getElementById('pdfNotesOverlay').classList.add('active');
+            document.getElementById('pdfNotesText').value = '';
+            document.getElementById('pdfNotesText').focus();
+        }
+
+        function closePdfNotesModal() {
+            document.getElementById('pdfNotesOverlay').classList.remove('active');
+            document.getElementById('pdfNotesText').value = '';
+        }
+
+        function generatePDFWithNotes() {
+            const pdfNotes = document.getElementById('pdfNotesText').value;
+            closePdfNotesModal();
+            
+            const element = document.createElement('div');
+            element.style.padding = '30px';
+            element.style.fontFamily = "'Avenir Next', 'Avenir', 'Montserrat', Arial, sans-serif";
+            element.style.backgroundColor = '#fafaf7';
+            element.style.color = '#1a1a1a';
+            element.style.lineHeight = '1.6';
+
+            const today = new Date();
+            
+            // Header mit Logo-Info
+            let html = `
+                <div style="border-bottom: 3px solid #195a44; padding-bottom: 20px; margin-bottom: 25px;">
+                    <div style="font-size: 20px; font-weight: 800; color: #195a44; margin-bottom: 8px;">NIESTEGGE</div>
+                    <div style="font-size: 18px; font-weight: 800; color: #195a44; margin-bottom: 15px;">Gartengestaltung</div>
+                    <h1 style="color: #195a44; margin: 0 0 8px 0; font-size: 28px; font-weight: 800;">Wartungsprotokoll</h1>
+                    <div style="color: #666; font-size: 13px;">${today.toLocaleDateString('de-DE')} – ${today.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            `;
+
+            // Allgemeine Notizen oben
+            if (pdfNotes.trim()) {
+                html += `
+                    <div style="background: #eef6e2; border-left: 4px solid #195a44; padding: 14px 16px; margin-bottom: 25px; border-radius: 4px;">
+                        <div style="font-size: 12px; font-weight: 700; color: #195a44; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Allgemeine Notizen:</div>
+                        <div style="font-size: 14px; color: #333; white-space: pre-wrap;">${escapeHtml(pdfNotes)}</div>
+                    </div>
+                `;
+            }
+
+            // Gruppiere nach Maschine
+            const byMachine = {};
+            allProtocols.forEach(entry => {
+                if (!byMachine[entry.machine]) {
+                    byMachine[entry.machine] = [];
+                }
+                byMachine[entry.machine].push(entry);
+            });
+
+            // Sortiere Maschinen alphabetisch
+            Object.keys(byMachine).sort().forEach((machine, machineIdx) => {
+                const entries = byMachine[machine].sort((a, b) => b.timestamp - a.timestamp);
+                
+                // Maschinen-Header
+                html += `
+                    <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                        <div style="background: #eef6e2; border-left: 4px solid #195a44; padding: 12px 16px; margin-bottom: 12px; border-radius: 4px;">
+                            <div style="font-size: 14px; font-weight: 700; color: #195a44; text-transform: uppercase; letter-spacing: 0.5px;">Maschine</div>
+                            <div style="font-size: 18px; font-weight: 800; color: #195a44; margin-top: 4px;">${machine}</div>
+                        </div>
+                `;
+                
+                entries.forEach((entry, idx) => {
+                    let workDone = '';
+                    if (entry.oilChecked) {
+                        workDone += '<div style="margin: 6px 0;"><span style="color: #195a44; font-weight: 700;">✓</span> Öl geprüft</div>';
+                    }
+                    if (entry.lubricated) {
+                        workDone += '<div style="margin: 6px 0;"><span style="color: #195a44; font-weight: 700;">✓</span> Abgeschmiert</div>';
+                    }
+                    if (entry.fueled) {
+                        workDone += '<div style="margin: 6px 0;"><span style="color: #195a44; font-weight: 700;">✓</span> Getankt</div>';
+                    }
+                    if (!entry.oilChecked && !entry.lubricated && !entry.fueled) {
+                        workDone = '<div style="color: #999; font-size: 13px; font-style: italic;">Keine Arbeiten dokumentiert</div>';
+                    }
+
+                    html += `
+                        <div style="background: white; border: 1px solid #e0e0e0; border-radius: 4px; padding: 14px; margin-bottom: 10px; page-break-inside: avoid;">
+                            <div style="font-weight: 700; color: #195a44; margin-bottom: 8px; font-size: 13px;">${entry.date} um ${entry.time}</div>
+                            <div style="font-size: 14px; margin-bottom: 8px; color: #333;">
+                                ${workDone}
+                            </div>
+                            ${entry.notes ? `
+                                <div style="background: #eef6e2; border-left: 3px solid #8dc63f; padding: 10px 12px; border-radius: 3px; margin-top: 8px; font-size: 13px;">
+                                    <div style="font-weight: 700; color: #195a44; margin-bottom: 4px;">Notiz:</div>
+                                    <div style="color: #333;">${escapeHtml(entry.notes)}</div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+            });
+
+            // Footer mit Claim
+            html += `
+                <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; font-size: 12px; color: #666; font-weight: 700;">
+                    <p style="margin: 0;">Niestegge Gartengestaltung – Wir gestalten, ihr genießt.</p>
+                </div>
+            `;
+
+            element.innerHTML = html;
+
+            const opt = {
+                margin: 15,
+                filename: `Niestegge_Wartungsprotokoll_${today.toISOString().split('T')[0]}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, backgroundColor: '#fafaf7' },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                showAlert('✓ PDF erzeugt und heruntergeladen!', 'success');
+            }).catch((error) => {
+                console.error('PDF-Fehler:', error);
+                showAlert('Fehler beim PDF-Export', 'error');
+            });
+        }
+
+        function downloadJSON() {
+            const data = {
+                exportDate: new Date().toISOString(),
+                protocols: allProtocols
+            };
+
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `wartungsprotokoll_backup_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function showAlert(message, type = 'error') {
+            const alert = document.getElementById('alert');
+            alert.className = `alert ${type === 'success' ? 'success' : ''}`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Start
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
