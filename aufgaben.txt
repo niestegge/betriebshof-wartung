@@ -1,0 +1,7 @@
+# Aufgaben fuer alle, die den QR-Code scannen.
+# Eine Aufgabe pro Zeile. Zeilen mit # am Anfang werden ignoriert.
+# Aendern, auf Commit changes tippen - fertig. Die HTML bleibt unangetastet.
+Kübel, Bäume & Pflanzenbecken bewässern
+Holzlager frei machen
+Müll auf dem Betriebshof aufsammeln
+Paletten sortenrein aufeinander stapeln
